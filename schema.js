@@ -1,16 +1,11 @@
+ 
 var pg = require('pg').native 
-  , connectionString = process.env.DATABASE_URL  
+  , connectionString = process.env.DATABASE_URL 
   , client 
   , query; 
-
+ 
 client = new pg.Client(connectionString); 
-client.connect(function(err){
-    if(err){
-        return console.error('Could not connect to the database');
-    }
-
-    client.query('')
-});
+client.connect();
 
 query = client.query(
     'CREATE TABLE categories (  ' +
