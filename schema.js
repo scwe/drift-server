@@ -20,10 +20,11 @@ query = client.query('
         colour text NOT NULL
     );
     CREATE TABLE users (
-        user_id serial PRIMARY KEY,
-        username text NOT NULL,
+        user_id serial,
+        username text,
         password text NOT NULL,
-        facebook_id text
+        facebook_id text,
+        PRIMARY KEY (username, user_id)
     );
     CREATE TABLE markers (
         user_id integer NOT NULL,

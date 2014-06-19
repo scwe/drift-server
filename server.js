@@ -93,3 +93,12 @@ app.get('/:username/category/:category_id', function(req, res){
 app.get('/', function(req, res){
     res.send("Something or rather that sshould be here, just for testing");
 });
+
+function is_logged_in(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+
+    res.statusCode = 401;
+    return res.send('Error 401: Not logged in');
+}

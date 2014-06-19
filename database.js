@@ -40,7 +40,7 @@ function create_user(username, password){
 }
 
 function get_user_id(username){
-    var user_id = -1;
+    var user_id = 0;
     pg.connect(connectionString, function(err, client, done){
         if(err){
             return console.error('error fetching client from pool', err);
@@ -56,6 +56,25 @@ function get_user_id(username){
 
     return user_id;
 }
+
+function get_username(id){
+    var username = "";
+    pg.connect(connectionString, function(err, client, done){
+        if(err){
+            return console.error('error fetching client from pool', err);
+        }
+        client.query('SELECT username FROM users WHERE user_id = \'$1\';', [id], function(err, result){
+            done();
+            if(err){
+                return console.error('Error runnning the query');
+            }
+            username = result.rows[0].username;
+        });
+    });
+
+    return username;
+}
+
 
 function encrypt_password(password){
     //save the password in plain text here...;
