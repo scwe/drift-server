@@ -1,13 +1,10 @@
+var pg = require('pg');
+var connectionString = process.env.DATABASE_URL;
  
-var pg = require('pg').native 
-  , connectionString = process.env.DATABASE_URL 
-  , client 
-  , query; 
- 
-client = new pg.Client(connectionString); 
-client.connect();
+var client = new pg.Client(connectionString);
+client.connect();
 
-query = client.query(
+var query = client.query(
     'CREATE TABLE categories (  ' +
         'category_id serial PRIMARY KEY,    ' +
         'user_id integer NOT NULL,  ' +

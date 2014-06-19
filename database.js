@@ -1,5 +1,6 @@
 var connectionString = process.env.DATABASE_URL;
 var bcrypt = require('bcrypt-nodejs');  //for encryption
+var pg = require('pg');
 
 module.exports = {
   create_user: create_user,
