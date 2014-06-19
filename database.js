@@ -81,6 +81,19 @@ function encrypt_password(password){
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 }
 
-function valid_password(hashed_password){
-    return bcrypt.compareSync(hashed_password, database.password);
+function valid_password(username, hashed_password){
+
+    pg.connect(connectionString, function(err client, done){
+        if(err){
+            return console.error('error fetching client from pool', err);
+        }
+
+        client.query('SELECT password FROM users WHERE username = \'$1\'', [username], function(err, result){
+            done();
+            if(err){
+                return console.error('Error running the query', err);
+            }
+            return bcrypt.compareSync(hashed_password, result.rows[0].password);
+        })
+    })
 }

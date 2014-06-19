@@ -6,6 +6,8 @@ var db = require('./database');
 var passport = require('passport');
 var flash    = require('connect-flash');
 
+require('./passport')(passport, db);
+
 app.configure(function() {
     // set up our express application
     app.use(express.bodyParser());
@@ -24,24 +26,19 @@ var server = app.listen(port, function(){
     console.log('Listening on port %d', server.address().port);
 });
 
-app.post('/login', function(req, res){
-    if(!req.body.hasOwnProperty('username') ||
-        !req.body.hasOwnProperty('password')){
-        res.statusCode = 400;
-        return res.send('Error 400: Post syntax incorrect');
+app.post('/login', passport.authenticate('local-login', 
+    function(req, res){
+        res.statusCode = 200;
+        return res.send('{\'success\':true}');  //Send em back a token of our appreciation
     }
+));
 
-    res.json(true);
-
-});
-
-app.post('/signup', function(req, res){
-    if(!req.body.hasOwnProperty('username') ||
-        !req.body.hasOwnProperty('password')){
-        res.statusCode = 400;
-        return res.send('Error 400: Post syntax incorrect');
+app.post('/signup', passport.authenticate('local-signup', 
+    function(req, res){
+        res.statusCode = 200;
+        return res.send('{\'success\':true}');
     }
-});
+));
 
 
 app.post('/:username/marker/:marker_id', function(req, res){
