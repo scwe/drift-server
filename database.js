@@ -22,10 +22,12 @@ function create_user(username, password){
         });
 
         q.on('end', function(result){
-            var cat_query = client.query('INSERT INTO categories (user_id, name, colour) 
-                VALUES (\'$1\', \'Views\', \'#FFFF00\'),
-                       (\'$1\', \'Beaches\', \'#00FF00\'),
-                       (\'$1\', \'Beaches\', \'#00FFFF\'),',
+            var qt = client.query('INSERT INTO users (username, password) VALUES (\'$1\', \'$2\') RETURNING user_id;', [username, encrypt_password(password)]);
+
+            var cat_query = client.query('INSERT INTO categories (user_id, name, colour) ' +
+                'VALUES (\'$1\', \'Views\', \'#FFFF00\'), ' +
+                       '(\'$1\', \'Beaches\', \'#00FF00\'), ' +
+                       '(\'$1\', \'Swimming Holes\', \'#FF0000\'),',
                        [user_id]);
 
             cat_query.on('end', function (result){
@@ -60,6 +62,6 @@ function encrypt_password(password){
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 }
 
-function validPassword(hashed_password){
+function valid_password(hashed_password){
     return bcrypt.compareSync(hashed_password, database.password);
 }

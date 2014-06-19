@@ -3,6 +3,8 @@ var app = express();
 var logfmt = require("logfmt");
 var port = Number(process.env.PORT || 3000);
 var db = require('./database');
+var passport = require('passport');
+var flash    = require('connect-flash');
 
 app.configure(function() {
     // set up our express application
