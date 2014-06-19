@@ -90,7 +90,7 @@ function encrypt_password(password){
 
 function valid_password(username, hashed_password){
 
-    pg.connect(connectionString, function(err client, done){
+    pg.connect(connectionString, function(err, client, done){
         if(err){
             return console.error('error fetching client from pool', err);
         }
@@ -106,7 +106,7 @@ function valid_password(username, hashed_password){
 }
 
 function get_friend(fb_id){
-    pg.connect(connectionString, function(err client, done){
+    pg.connect(connectionString, function(err, client, done){
         if(err){
             return console.error('error fetching client from pool', err);
         }
@@ -122,7 +122,7 @@ function get_friend(fb_id){
 }
 
 function get_all_categories(username){
-    pg.connect(connectionString, function(err client, done){
+    pg.connect(connectionString, function(err, client, done){
         if(err){
             return console.error('error fetching client from pool', err);
         }
@@ -140,7 +140,7 @@ function get_all_categories(username){
 }
 
 function get_category(username, category_id){
-    pg.connect(connectionString, function(err client, done){
+    pg.connect(connectionString, function(err, client, done){
         if(err){
             return console.error('error fetching client from pool', err);
         }
@@ -158,7 +158,7 @@ function get_category(username, category_id){
 }
 
 function get_all_markers(username){
-    pg.connect(connectionString, function(err client, done){
+    pg.connect(connectionString, function(err, client, done){
         if(err){
             return console.error('error fetching client from pool', err);
         }
@@ -176,7 +176,7 @@ function get_all_markers(username){
 }
 
 function get_marker(username, marker_id){
-    pg.connect(connectionString, function(err client, done){
+    pg.connect(connectionString, function(err, client, done){
         if(err){
             return console.error('error fetching client from pool', err);
         }
@@ -190,5 +190,36 @@ function get_marker(username, marker_id){
             }
             return result.rows[0];
         });
+    });
+}
+
+function create_marker(username, lat, lon, text, image){
+    pg.connect(connectionString, function(err, client, done){
+        if(err){
+            return console.error('error fetching client from pool', err);
+        }
+
+        var user_id = get_user_id(username);
+
+
+        if(image){
+            client.query('INSERT INTO markers (user_id, lat, lon, data, image) VALUES (\'$1\',$2,$3,\'$4\', $5);', 
+                [user_id, lat, lon, text, image], function(err, result){
+                done();
+                if(err){
+                    return console.error('Error running the query', err);
+                }
+                return result.rows[0];
+            });
+        }else{
+            client.query('INSERT INTO markers (user_id, lat, lon, data) VALUES (\'$1\',$2,$3,\'$4\') RETURNING marker_id;', 
+                [user_id, lat, lon, text], function(err, result){
+                done();
+                if(err){
+                    return console.error('Error running the query', err);
+                }
+                return result.rows[0];
+            });
+        }
     });
 }

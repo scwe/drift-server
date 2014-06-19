@@ -53,8 +53,6 @@ module.exports = function(passport, db) {
                 return done(user_id, username);
             }
 
-        });    
-
         });
 
     }));
