@@ -2,17 +2,25 @@ var express = require('express');
 var app = express();
 var logfmt = require("logfmt");
 var port = Number(process.env.PORT || 3000);
+var db = require('./database');
 
-app.use(express.bodyParser());
-app.use(logfmt.requestLogger());
+app.configure(function() {
+    // set up our express application
+    app.use(express.bodyParser());
+    app.use(logfmt.requestLogger());
+    app.use(express.cookieParser()); // read cookies (needed for auth)
+
+    // required for passport
+    app.use(express.session({ secret: 'driftisanawesomeapp' })); // session secret
+    app.use(passport.initialize());
+    app.use(passport.session()); // persistent login sessions
+    app.use(flash()); // use connect-flash for flash messages stored in session
+
+});
 
 var server = app.listen(port, function(){
     console.log('Listening on port %d', server.address().port);
 });
-
-function create_user(){
-    
-}
 
 app.post('/login', function(req, res){
     if(!req.body.hasOwnProperty('username') ||
@@ -35,15 +43,21 @@ app.post('/signup', function(req, res){
 
 
 app.post('/:username/marker/:marker_id', function(req, res){
-    if(!req.body.hasOwnProperty('category') ||
-        !req.body.hasOwnProperty('lat') ||
+    if( !req.body.hasOwnProperty('lat') ||
         !req.body.hasOwnProperty('lon') ||
         !req.body.hasOwnProperty('text')){
         res.statusCode = 400;
         return res.send('Error 400: Post syntax incorrect');
     }
 
+    if(req.body.hasOwnProperty('image')){
 
+    }else{
+        db.create_marker()
+    }
+    db.create_marker(req.body.category)
+
+    res.send("some json things here");
 });
 
 app.get('/:username/marker/:marker_id', function(req, res){

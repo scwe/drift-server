@@ -19,7 +19,7 @@ query = client.query('
         name text NOT NULL,
         colour text NOT NULL
     );
-    CREATE TABLE user (
+    CREATE TABLE users (
         user_id serial PRIMARY KEY,
         username text NOT NULL,
         password text NOT NULL,
