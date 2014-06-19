@@ -10,6 +10,10 @@ var server = app.listen(port, function(){
     console.log('Listening on port %d', server.address().port);
 });
 
+function create_user(){
+    
+}
+
 app.post('/login', function(req, res){
     if(!req.body.hasOwnProperty('username') ||
         !req.body.hasOwnProperty('password')){
@@ -29,15 +33,6 @@ app.post('/signup', function(req, res){
     }
 });
 
-app.get('/:username/marker/:marker_id', function(req, res){
-    //make sure that the person is either 'username' or they are facebook friends with 'username'
-    var username = req.params.username;
-    var marker_id = req.params.marker_id;
-
-    if(marker_id === "all"){
-
-    }
-});
 
 app.post('/:username/marker/:marker_id', function(req, res){
     if(!req.body.hasOwnProperty('category') ||
@@ -51,6 +46,16 @@ app.post('/:username/marker/:marker_id', function(req, res){
 
 });
 
+app.get('/:username/marker/:marker_id', function(req, res){
+    //make sure that the person is either 'username' or they are facebook friends with 'username'
+    var username = req.params.username;
+    var marker_id = req.params.marker_id;
+
+    if(marker_id === "all"){
+
+    }
+});
+
 app.post('/:username/category/:category_id', function(req, res){
     if(!req.body.hasOwnProperty('name') || 
         !req.body.hasOwnProperty('colour')){
@@ -60,12 +65,12 @@ app.post('/:username/category/:category_id', function(req, res){
 
 });
 
-app.post('/:username/category/:category_id', function(req, res){
+app.get('/:username/category/:category_id', function(req, res){
     var username = req.params.username;
     var category_id = req.params.category_id;
 
     if(category_id === "all"){
-        
+
     }
 })
 
