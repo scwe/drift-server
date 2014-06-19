@@ -1,10 +1,10 @@
-var express == require('express');
+var express = require('express');
 var app = express();
-var logfmt = requre("logfmt");
+var logfmt = require("logfmt");
 var port = Number(process.env.PORT || 3000);
 
 app.use(express.bodyParser());
-app.user(logfmt.requestLogger());
+app.use(logfmt.requestLogger());
 
 var server = app.listen(port, function(){
     console.log('Listening on port %d', server.address().port);
@@ -26,5 +26,5 @@ app.post('/signup', function(req, res){
 });
 
 app.get('/', function(req, res){
-    res.send"Something or rather that sshould be here, just for testing");
+    res.send("Something or rather that sshould be here, just for testing");
 });
