@@ -41,7 +41,7 @@ app.post('/signup', passport.authenticate('local-signup',
 ));
 
 
-app.post('/:username/marker/:marker_id', function(req, res){
+app.post('/:username/marker/:marker_id', is_logged_in, function(req, res){
     if( !req.body.hasOwnProperty('lat') ||
         !req.body.hasOwnProperty('lon') ||
         !req.body.hasOwnProperty('text')){
@@ -59,17 +59,21 @@ app.post('/:username/marker/:marker_id', function(req, res){
     res.send("some json things here");
 });
 
-app.get('/:username/marker/:marker_id', function(req, res){
+app.get('/:username/marker/:marker_id', is_logged_in, function(req, res){
     //make sure that the person is either 'username' or they are facebook friends with 'username'
     var username = req.params.username;
     var marker_id = req.params.marker_id;
 
     if(marker_id === "all"){
-
+        var markers = db.get_all_markers(username);
+        return res.send(JSON.stringify(markers));
+    }else{
+        var marker = db.get_marker(username, marker_id);
+        return res.send(JSON.stringify(marker));
     }
 });
 
-app.post('/:username/category/:category_id', function(req, res){
+app.post('/:username/category/:category_id', is_logged_in, function(req, res){
     if(!req.body.hasOwnProperty('name') || 
         !req.body.hasOwnProperty('colour')){
         res.statusCode = 400;
@@ -78,13 +82,30 @@ app.post('/:username/category/:category_id', function(req, res){
 
 });
 
-app.get('/:username/category/:category_id', function(req, res){
+app.get('/:username/category/:category_id', is_logged_in, function(req, res){
     var username = req.params.username;
     var category_id = req.params.category_id;
 
     if(category_id === "all"){
-
+        var categories = db.get_all_categories(username);
+        return res.send(JSON.stringify(categories));
+    }else{
+        var category = db.get_category(username, category_id);
+        return res.send(JSON.stringify(category));
     }
+});
+
+app.get('/facebook/:fb_id', is_logged_in, function(req, res){
+    var fb_id = req.params.fb_id;
+
+    var friend_username = db.get_friend(fb_id);
+
+    return res.send('{\'username\': '+friend_username+'}');
+});
+
+app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
 })
 
 app.get('/', function(req, res){
