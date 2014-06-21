@@ -1,5 +1,7 @@
 // app/routes.js
 
+var User = require('../app/models/user');  //only needed for finding friends, but we should probably load at the start anyway
+
 module.exports = function(app, passport) {
 
     // =====================================
@@ -50,7 +52,7 @@ module.exports = function(app, passport) {
     app.get('/profile', is_logged_in, function(req, res) {
         res.render('profile.ejs', {
             user : req.user, // get the user out of session and pass to template
-            json : JSON.stringify(req.user.toJSON())
+            json : JSON.stringify(req.user.toJSON(), null, 2);
         });
     });
 
@@ -113,15 +115,15 @@ module.exports = function(app, passport) {
 
 
 
-    app.get('//category/:category_id', is_logged_in, function(req, res){
-        var username = req.params.username;
-        var category_id = req.params.category_id;
+    app.get('/:category_name', is_logged_in, function(req, res){
+        var user = req.user;
+        var category_name = req.params.category_name;
 
-        if(category_id === "all"){
-            var categories = db.get_all_categories(username);
+        if(category_name === "all"){
+            var categories = user.allCategories();
             return res.send(JSON.stringify(categories));
         }else{
-            var category = db.get_category(username, category_id);
+            var category = user.getCategory(category_name);
             return res.send(JSON.stringify(category));
         }
     });
@@ -130,8 +132,11 @@ module.exports = function(app, passport) {
         return res.json(req.user.toJSON());
     });
 
-    app.get('/facebook/:fb_id', is_logged_in, function(req, res){
-        var fb_id = req.params.fb_id;
+    app.get('/friends/:fb_id', is_logged_in, function(req, res){
+        var user = req.user;
+        var fb_id = req.param.fb_id;
+
+
 
         var friend_username = db.get_friend(fb_id);
 
