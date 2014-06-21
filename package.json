@@ -5,13 +5,14 @@
     "private": true,
     "main": "server.js",
     "dependencies":{
-        "express": "~3.4.4",
-        "passport": "~0.1.17",
-        "passport-local": "~0.1.6",
-        "bcrypt-nodejs": "latest",
+        "express" : "~3.4.4",           
+        "ejs" : "~0.8.5",      
+        "mongoose" : "~3.8.1",          
+        "passport" : "~0.1.17",         
+        "passport-local" : "~0.1.6",
+        "connect-flash" : "~0.1.1",     
         "logfmt": "latest",
-        "connect-flash": "~0.1.1",
-        "pg": "latest"
+        "bcrypt-nodejs" : "latest"  
     },
     "repository":{
         "type":"git",
