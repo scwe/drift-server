@@ -5,23 +5,20 @@ var bcrypt   = require('bcrypt-nodejs');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
-
-    local             : {
-        username      : String,
-        password      : String,
-        facebook_id   : Number,
-        categories    : [{       //List of all the categories that the user 
-            name      : String,
-            colour    : String,
-            markers   : [{       //List of all the markers attached to the category
-                name  : {type: String, default : ""},
-                lat   : Number,
-                lon   : Number,
-                text  : String,
-                image : {data : Buffer, contentType : String},
-            }],
-        }]
-    },
+    username        : String,
+    password        : String,
+    facebook_id     : Number,
+    categories      : [{       //List of all the categories that the user 
+        name        : String,
+        colour      : String,
+        markers     : [{       //List of all the markers attached to the category
+            name    : {type: String, default : ""},
+            lat     : Number,
+            lon     : Number,
+            text    : String,
+            image   : {data : Buffer, contentType : String},
+        }],
+    }]
 });
 
 // methods ======================
@@ -32,11 +29,11 @@ userSchema.methods.generateHash = function(password) {
 
 // checking if password is valid
 userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
+    return bcrypt.compareSync(password, this.password);
 };
 
 userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _text, _image){
-    var cat = findWithName(this.local.categories, categoryName);
+    var cat = findWithName(this.categories, categoryName);
     if(cat === null){
         return false;
     } 
@@ -47,7 +44,7 @@ userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _tex
         newMarker.push({name : _name});
     }
 
-    this.local.categories.markers.push(newMarker);
+    this.categories.markers.push(newMarker);
 
     this.save(function(err){
         if(err){
@@ -55,12 +52,12 @@ userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _tex
             return false;
         }
 
-        return this.local.categories.markers.indexOf(newMarker);
+        return this.categories.markers.indexOf(newMarker);
     });
 };
 
 userSchema.methods.createCategory = function(_name, _colour){
-    var old_cat = findWithName(this.local.categories, _name);
+    var old_cat = findWithName(this.categories, _name);
 
     if(cat !== null){
         return false;
@@ -68,18 +65,18 @@ userSchema.methods.createCategory = function(_name, _colour){
 
     var newCat = {name: _name, colour: _colour, markers: []};
 
-    this.local.categories.push(newCat);
+    this.categories.push(newCat);
     this.save(function(err){
         if(err){
             throw err;
             return false;
         }
-        return this.local.categories.indexOf(newCat);
+        return this.categories.indexOf(newCat);
     });
 };
 
 userSchema.methods.getCategory = function(name){
-    var cat = findWithName(this.local.categories, name);
+    var cat = findWithName(this.categories, name);
     if(cat === null){
         return false;
     }
@@ -88,7 +85,7 @@ userSchema.methods.getCategory = function(name){
 };
 
 userSchema.methods.getMarker = function(catName, index, name){
-    var cat = findWithName(this.local.categories, catName);
+    var cat = findWithName(this.categories, catName);
 
     if(cat === null){
         return false;
@@ -104,7 +101,7 @@ userSchema.methods.getMarker = function(catName, index, name){
 }
 
 userSchema.methods.allMarkers = function(catName){
-    var cat = findWithName(this.local.categories, catName);
+    var cat = findWithName(this.categories, catName);
     if(cat === null){
         return false;
     }
@@ -113,7 +110,19 @@ userSchema.methods.allMarkers = function(catName){
 }
 
 userSchema.methods.allCategories = function(){
-    return this.local.categories;
+    return this.categories;
+}
+
+userSchema.methods.addFacebookId = function(id){
+    this.facebook_id = id;
+
+    this.save(function(err){
+        if(err){
+            throw err;
+            return false;
+        }
+        return id;
+    });
 }
 
 function findWithName(list, name){
@@ -125,8 +134,6 @@ function findWithName(list, name){
 
     return null;
 }
-
-userSchema.methods.get
 
 //Make sure that we can convert to JSON
 userSchema.set('toJSON', { getters: true, virtuals: false });

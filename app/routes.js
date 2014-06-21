@@ -132,15 +132,31 @@ module.exports = function(app, passport) {
         return res.json(req.user.toJSON());
     });
 
-    app.get('/friends/:fb_id', is_logged_in, function(req, res){
+    //for setting the persons facebook id
+    app.get('/facebook/add', is_logged_in, function(req, res){
+        if(!req.body.hasOwnProperty('facebook_id')){
+            return res.status(400).send("Incorrect post syntax");
+        }
+
+        var user = req.user;
+        var fb_id = req.body.facebook_id;
+
+        user.addFacebookId(fb_id);
+        return res.json(true);
+    });
+
+    app.get('/facebook/:fb_id', is_logged_in, function(req, res){
         var user = req.user;
         var fb_id = req.param.fb_id;
 
+        var friend_categories = User.findOne({facebook_id: fb_id}, 'categories', function(err, categories){
+            if(err){
+                return res.status(400).send("There is no one in the database with that id");
+            }
+            return categories;
+        });
 
-
-        var friend_username = db.get_friend(fb_id);
-
-        return res.send('{\'username\': '+friend_username+'}');
+        return res.json(friend_categories.markers);
     });
 
     app.get('/logout', function(req, res){
