@@ -52,7 +52,7 @@ module.exports = function(app, passport) {
     app.get('/profile', is_logged_in, function(req, res) {
         res.render('profile.ejs', {
             user : req.user, // get the user out of session and pass to template
-            json : JSON.stringify(req.user.toJSON(), null, 2);
+            json : JSON.stringify(req.user.toJSON(), null, 2)
         });
     });
 
