@@ -62,6 +62,23 @@ module.exports = function(passport) {
                 // set the user's local credentials
                 newUser.local.username    = username;
                 newUser.local.password = newUser.generateHash(password);
+                newUser.local.categories = [  //Just creating the default categories for a new user
+                    {   
+                        name : "Rivers",
+                        colour : "#00FF00",
+                        markers : []
+                    },
+                    {
+                        name : "Views",
+                        colour : "#FFFF00",
+                        markers : []
+                    },
+                    {
+                        name : "Beaches",
+                        colour : "#00DDEE",
+                        markers : []
+                    }
+                ];
 
                 // save the user
                 newUser.save(function(err) {

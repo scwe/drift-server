@@ -6,36 +6,21 @@ var bcrypt   = require('bcrypt-nodejs');
 // define the schema for our user model
 var userSchema = mongoose.Schema({
 
-    local            : {
-        username     : String,
-        password     : String,
-        facebook_id  : String
+    local             : {
+        username      : String,
+        password      : String,
+        facebook_id   : Number,
+        categories    : [{       //List of all the categories that the user 
+            name      : String,
+            colour    : String,
+            markers   : [{       //List of all the markers attached to the category
+                lat   : Number,
+                lon   : Number,
+                text  : String,
+                image : {data : Buffer, type : String},
+            }],
+        }]
     },
-    facebook         : {
-        id           : String,
-        token        : String,
-        email        : String,
-        name         : String
-    }
-/*
-    'CREATE TABLE categories (  ' +
-        'category_id serial PRIMARY KEY,    ' +
-        'user_id integer NOT NULL,  ' +
-        'name text NOT NULL,    ' +
-        'colour text NOT NULL   ' +
-    '); ' +
-    'CREATE TABLE users (   ' +
-        
-    '); ' +
-    'CREATE TABLE markers ( ' +
-        'user_id integer NOT NULL,  ' +
-        'marker_id serial PRIMARY KEY,  ' +
-        'lat double NOT NULL,   ' +
-        'lon double NOT NULL,   ' +
-        'data text, ' +
-        'image bytea,   ' +
-    ');'*/
-
 });
 
 // methods ======================
@@ -48,6 +33,9 @@ userSchema.methods.generateHash = function(password) {
 userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
+
+//Make sure that we can convert to JSON
+userSchema.set('toJSON', { getters: true, virtuals: false });
 
 // create the model for users and expose it to our app
 module.exports = mongoose.model('User', userSchema);
