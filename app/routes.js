@@ -128,6 +128,7 @@ module.exports = function(app, passport) {
 
     });
 
+    //Tested and working (both all and with an id)
     app.get('/category/:category_name/marker/:marker_id', is_logged_in, function(req, res){
         //make sure that the person is either 'username' or they are facebook friends with 'username'
         var user = req.user;
