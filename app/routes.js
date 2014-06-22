@@ -41,11 +41,25 @@ module.exports = function(app, passport) {
         // render the page and pass in any flash data if it exists
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
-
+/*
     // process the login form
     app.post('/login', passport.authenticate('local-login'), function(req, res){
         console.log('Successfully authenticated');
+
+        
+
         return res.json(true);
+    });*/
+
+    app.post('/login', function(req, res, next) {
+        passport.authenticate('local', function(err, user, info) {
+            if (err) { return next(err); }
+            if (!user) { return res.status(401).send(false); }
+            req.logIn(user, function(err) {
+                if (err) { return next(err); }
+                return res.json(true);
+            });
+        })(req, res, next);
     });
 
     // process the login form
