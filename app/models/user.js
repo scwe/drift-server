@@ -62,7 +62,7 @@ userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _tex
 userSchema.methods.createCategory = function(_name, _colour){
     var old_cat = findWithName(this.categories, _name);
 
-    if(cat !== null){
+    if(old_cat !== null){
         return false;
     }
 

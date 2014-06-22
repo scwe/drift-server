@@ -140,6 +140,7 @@ module.exports = function(app, passport) {
     app.get('/:category_name', is_logged_in, function(req, res){
         var user = req.user;
         var category_name = req.params.category_name;
+        console.log("")
 
         if(category_name === "all"){
             var categories = user.allCategories();
@@ -148,10 +149,6 @@ module.exports = function(app, passport) {
             var category = user.getCategory(category_name);
             return res.send(JSON.stringify(category));
         }
-    });
-
-    app.get('/all', is_logged_in, function(req, res){
-        return res.json(req.user.toJSON());
     });
 
     //for setting the persons facebook id
