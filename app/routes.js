@@ -28,6 +28,7 @@ module.exports = function(app, passport) {
         failureFlash : true // allow flash messages
     }));
 
+    //Tested and working
     app.post('/signup', function(req, res, next) {
         passport.authenticate('local-signup', function(err, user, info) {
             if (err) { return next(err); }
@@ -48,6 +49,7 @@ module.exports = function(app, passport) {
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
 
+    //Tested and working
     app.post('/login', function(req, res, next) {
         passport.authenticate('local-login', function(err, user, info) {
             if (err) { return next(err); }
@@ -111,6 +113,7 @@ module.exports = function(app, passport) {
         return res.send(JSON.stringify(marker));
     });
 
+    //Tested and working
     app.post('/category/create', is_logged_in, function(req, res){
         if(!req.body.hasOwnProperty('name') || 
             !req.body.hasOwnProperty('colour')){
@@ -120,7 +123,6 @@ module.exports = function(app, passport) {
 
         var newCat = req.user.createCategory(req.body.name, req.body.colour);
 
-        console.log("returning category: "+newCat);
         return res.send(JSON.stringify(newCat));
 
     });
@@ -137,8 +139,6 @@ module.exports = function(app, passport) {
             return res.send(JSON.stringify(marker));
         }
     });
-
-
 
     app.get('/category/:category_name', is_logged_in, function(req, res){
         var user = req.user;
