@@ -203,5 +203,5 @@ function is_logged_in(req, res, next) {
         return next();
 
     // if they aren't redirect them to the home page
-    res.location('/login').redirect('/login');
+    res.status(401).send(false);
 }
