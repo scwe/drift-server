@@ -86,7 +86,7 @@ module.exports = function(app, passport) {
         res.location('/').redirect('/');
     });
 
-    app.post('/:category_name/create_marker', is_logged_in, function(req, res){
+    app.post('/category/:category_name/marker/create', is_logged_in, function(req, res){
         if( !req.body.hasOwnProperty('lat') ||
             !req.body.hasOwnProperty('lon') ||
             !req.body.hasOwnProperty('text')){
@@ -111,7 +111,7 @@ module.exports = function(app, passport) {
         return res.send(JSON.stringify(marker));
     });
 
-    app.post('/create_category', is_logged_in, function(req, res){
+    app.post('/category/create', is_logged_in, function(req, res){
         if(!req.body.hasOwnProperty('name') || 
             !req.body.hasOwnProperty('colour')){
             res.statusCode = 400;
@@ -125,7 +125,7 @@ module.exports = function(app, passport) {
 
     });
 
-    app.get('/:category_name/:marker_id', is_logged_in, function(req, res){
+    app.get('/category/:category_name/marker/:marker_id', is_logged_in, function(req, res){
         //make sure that the person is either 'username' or they are facebook friends with 'username'
         var user = req.user;
 
@@ -140,7 +140,7 @@ module.exports = function(app, passport) {
 
 
 
-    app.get('/:category_name', is_logged_in, function(req, res){
+    app.get('/category/:category_name', is_logged_in, function(req, res){
         var user = req.user;
         var category_name = req.params.category_name;
         console.log("")
