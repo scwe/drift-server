@@ -118,7 +118,10 @@ module.exports = function(app, passport) {
             return res.send('Error 400: Post syntax incorrect');
         }
 
-        return res.send(JSON.stringify(req.user.createCategory(req.body.name, req.body.colour)));
+        var newCat = req.user.createCategory(req.body.name, req.body.colour);
+
+        console.log("returning category: "+newCat);
+        return res.send(JSON.stringify(newCat));
 
     });
 
