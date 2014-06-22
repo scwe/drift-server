@@ -51,7 +51,7 @@ userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _tex
     cat.markers.push(newMarker);
     this.save();
 
-    return cat.markers.indexOf(newMarker);
+    return cat.markers.length - 1;  //that should do it
 };
 
 userSchema.methods.createCategory = function(_name, _colour){
