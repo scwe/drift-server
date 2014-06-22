@@ -140,6 +140,7 @@ module.exports = function(app, passport) {
         }
     });
 
+    //Tested and working
     app.get('/category/:category_name', is_logged_in, function(req, res){
         var user = req.user;
         var category_name = req.params.category_name;
@@ -177,6 +178,8 @@ module.exports = function(app, passport) {
             }
             return categories;
         });
+
+        //We also need to make sure here that the user and the friend are actually friends
 
         return res.json(friend_categories.markers);
     });
