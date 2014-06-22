@@ -87,14 +87,12 @@ userSchema.methods.getMarker = function(catName, id){
     var marker = false;
 
     for (var i = 0; i < cat.markers.length; i++) {
-        console.log("id is: "+cat.markers[i].id+" and the one we are looking for is: "+id);
-        if(cat.markers[i].id === id){
+        //Intentional == here, that means that I do not need to worry about casting the input id to a Number, as "2" == 2 would evaluate to true
+        if(cat.markers[i].id == id){
             marker = cat.markers[i];
-            console.log("Setting marker to this: "+marker);
         } 
     };
 
-    console.log("At the end the marker is: "+marker);
     return marker;
 }
 

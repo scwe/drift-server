@@ -137,7 +137,6 @@ module.exports = function(app, passport) {
             return res.send(JSON.stringify(markers));
         }else{
             var marker = user.getMarker(req.params.category_name, req.params.marker_id);
-            console.log("Adter all is said and done, marker is: "+marker);
             return res.send(JSON.stringify(marker));
         }
     });
