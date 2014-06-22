@@ -44,7 +44,8 @@ userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _tex
     var newMarker = {lat: _lat, lon : _lon, text: _text, image:_image};
 
     if(_name){
-        newMarker[name] = _name;
+        console.log("lat is: "+newMarker["lat"]);
+        newMarker["name"] = _name;
     }
 
     this.categories.markers.push(newMarker);
