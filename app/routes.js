@@ -15,31 +15,36 @@ module.exports = function(app, passport) {
     // LOGIN ===============================
     // =====================================
     // show the login form
-    app.get('/login', function(req, res) {
+    app.get('/login-web', function(req, res) {
 
         // render the page and pass in any flash data if it exists
         res.render('login.ejs', { message: req.flash('loginMessage') }); 
     });
 
     // process the signup form
-    app.post('/signup', passport.authenticate('local-signup', {
+    app.post('/signup-web', passport.authenticate('local-signup', {
         successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
+        failureRedirect : '/signup-web', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
+
+    // process the signup form
+    app.post('/signup', passport.authenticate('local-signup'), function(req, res){
+        return res.json(true);
+    });
 
     // =====================================
     // SIGNUP ==============================
     // =====================================
     // show the signup form
-    app.get('/signup', function(req, res) {
+    app.get('/signup-web', function(req, res) {
         // render the page and pass in any flash data if it exists
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
 
     // process the login form
     app.post('/login', passport.authenticate('local-login'), function(req, res){
-        return res.redirect('/');
+        return res.json(true);
     });
 
     // process the login form
@@ -66,7 +71,7 @@ module.exports = function(app, passport) {
     // =====================================
     app.get('/logout', function(req, res) {
         req.logout();
-        res.redirect('/');
+        res.location('/').redirect('/');
     });
 
     app.post('/:category_name/create_marker', is_logged_in, function(req, res){
@@ -186,5 +191,5 @@ function is_logged_in(req, res, next) {
         return next();
 
     // if they aren't redirect them to the home page
-    res.redirect('/login');
+    res.location('/login').redirect('/login');
 }
