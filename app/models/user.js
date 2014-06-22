@@ -45,7 +45,6 @@ userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _tex
     var newMarker = {lat: _lat, lon : _lon, text: _text, image:_image, id : cat.markers.length};
 
     if(_name){
-        console.log("lat is: "+newMarker["lat"]);
         newMarker["name"] = _name;
     }
 
@@ -88,6 +87,7 @@ userSchema.methods.getMarker = function(catName, id){
     var marker = false;
 
     for (var i = 0; i < cat.markers.length; i++) {
+        console.log("id is: "+cat.markers[i].id+" and the one we are looking for is: "+id);
         if(cat.markers[i].id === id){
             marker = cat.markers[i];
         } 
