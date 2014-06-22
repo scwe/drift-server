@@ -88,6 +88,7 @@ module.exports = function(app, passport) {
         res.location('/').redirect('/');
     });
 
+    //tested and working
     app.post('/category/:category_name/marker/create', is_logged_in, function(req, res){
         if( !req.body.hasOwnProperty('lat') ||
             !req.body.hasOwnProperty('lon') ||

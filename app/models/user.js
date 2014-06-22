@@ -16,6 +16,7 @@ var userSchema = mongoose.Schema({
         colour      : String,
         markers     : [{       //List of all the markers attached to the category
             name    : {type: String, default : ""},
+            id   : Number,
             lat     : Number,
             lon     : Number,
             text    : String,
@@ -41,7 +42,7 @@ userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _tex
         return false;
     } 
 
-    var newMarker = {lat: _lat, lon : _lon, text: _text, image:_image};
+    var newMarker = {lat: _lat, lon : _lon, text: _text, image:_image, id : cat.markers.length};
 
     if(_name){
         console.log("lat is: "+newMarker["lat"]);
@@ -51,7 +52,7 @@ userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _tex
     cat.markers.push(newMarker);
     this.save();
 
-    return cat.markers.length - 1;  //that should do it
+    return newMarker.id;  //that should do it
 };
 
 userSchema.methods.createCategory = function(_name, _colour){
@@ -78,18 +79,19 @@ userSchema.methods.getCategory = function(name){
     return cat;
 };
 
-userSchema.methods.getMarker = function(catName, index, name){
+userSchema.methods.getMarker = function(catName, id){
     var cat = findWithName(this.categories, catName);
 
     if(cat === null){
         return false;
     }
+    var marker = false;
 
-    var marker = findWithName(cat, name);
-
-    if(marker === null){  //if we can find it by name, just return that, otherwise use the index
-        return cat[index];
-    }
+    for (var i = 0; i < cat.markers.length; i++) {
+        if(cat.markers[i].id === id){
+            marker = cat.markers[i];
+        } 
+    };
 
     return marker;
 }
