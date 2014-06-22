@@ -74,7 +74,7 @@ userSchema.methods.createCategory = function(_name, _colour){
             throw err;
             return false;
         }
-        return this.categories.indexOf(newCat);
+        return newCat;
     });
 };
 
