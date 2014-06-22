@@ -62,6 +62,7 @@ module.exports = function(passport) {
                 // set the user's local credentials
                 newUser.username    = username;
                 newUser.password = newUser.generateHash(password);
+                newUser.facebook.friends = [];
                 newUser.categories = [  //Just creating the default categories for a new user
                     {   
                         name : "Rivers",

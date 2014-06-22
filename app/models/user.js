@@ -7,7 +7,10 @@ var bcrypt   = require('bcrypt-nodejs');
 var userSchema = mongoose.Schema({
     username        : String,
     password        : String,
-    facebook_id     : Number,
+    facebook        : {
+        id          : Number,
+        friends     : [Number]
+    },
     categories      : [{       //List of all the categories that the user 
         name        : String,
         colour      : String,
@@ -113,8 +116,8 @@ userSchema.methods.allCategories = function(){
     return this.categories;
 }
 
-userSchema.methods.addFacebookId = function(id){
-    this.facebook_id = id;
+userSchema.methods.setFacebookId = function(id){
+    this.facebook.id = id;
 
     this.save(function(err){
         if(err){
@@ -122,6 +125,19 @@ userSchema.methods.addFacebookId = function(id){
             return false;
         }
         return id;
+    });
+}
+
+userSchema.methods.addFriends = function(new_friends){
+    this.facebook.friends.concat(new_friends);
+
+    this.save(function(err){
+        if(err){
+            throw err;
+            return false;
+        }
+
+        return true
     });
 }
 

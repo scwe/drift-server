@@ -133,7 +133,7 @@ module.exports = function(app, passport) {
     });
 
     //for setting the persons facebook id
-    app.get('/facebook/add', is_logged_in, function(req, res){
+    app.post('/facebook/add', is_logged_in, function(req, res){
         if(!req.body.hasOwnProperty('facebook_id')){
             return res.status(400).send("Incorrect post syntax");
         }
@@ -149,7 +149,7 @@ module.exports = function(app, passport) {
         var user = req.user;
         var fb_id = req.param.fb_id;
 
-        var friend_categories = User.findOne({facebook_id: fb_id}, 'categories', function(err, categories){
+        var friend_categories = User.findOne({'facebook.id': fb_id}, 'categories', function(err, categories){
             if(err){
                 return res.status(400).send("There is no one in the database with that id");
             }
@@ -157,6 +157,14 @@ module.exports = function(app, passport) {
         });
 
         return res.json(friend_categories.markers);
+    });
+
+    app.post('/facebook/friends', is_logged_in, function(req, res){
+        if(!req.body.hasOwnProperty('friends')){
+            return res.status(400).send("Incorrect post syntax");
+        }
+        var user = req.user;
+        return res.json(user.addFriends(req.body.friends));
     });
 
     app.get('/logout', function(req, res){
