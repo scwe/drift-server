@@ -166,13 +166,16 @@ module.exports = function(app, passport) {
         var user = req.user;
         var fb_id = req.body.facebook_id;
 
-        user.addFacebookId(fb_id);
+        user.setFacebookId(fb_id);
         return res.json(true);
     });
 
     app.get('/facebook/:fb_id', is_logged_in, function(req, res){
         var user = req.user;
         var fb_id = req.param.fb_id;
+        if(!user.isFriend(fb_id)){
+            return res.status(401).json("That person is not your friend");
+        }
 
         var friend_categories = User.findOne({'facebook.id': fb_id}, 'categories', function(err, categories){
             if(err){
@@ -180,7 +183,6 @@ module.exports = function(app, passport) {
             }
             return categories;
         });
-
         //We also need to make sure here that the user and the friend are actually friends
 
         return res.json(friend_categories.markers);
@@ -191,7 +193,9 @@ module.exports = function(app, passport) {
             return res.status(400).send("Incorrect post syntax");
         }
         var user = req.user;
-        return res.json(user.addFriends(req.body.friends));
+        var friends = req.body.friends.split(",");
+
+        return res.json(user.addFriends(friends));
     });
 
     app.get('/logout', function(req, res){

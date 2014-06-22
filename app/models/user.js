@@ -123,6 +123,19 @@ userSchema.methods.addFriends = function(new_friends){
     return true;
 }
 
+userSchema.methods.isFriend = function(friend_id){
+    var friends = this.facebook.friends;
+    var result = false;
+
+    for (var i = 0; i < friends.length; i++) {
+        if(friends[i].id == friend_id){
+            result = true;
+        }
+    };
+
+    return result;
+}
+
 function findWithName(list, name){
     for (var i = list.length - 1; i >= 0; i--) {
         if(list[i].name === name){
