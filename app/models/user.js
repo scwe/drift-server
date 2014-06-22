@@ -90,9 +90,11 @@ userSchema.methods.getMarker = function(catName, id){
         console.log("id is: "+cat.markers[i].id+" and the one we are looking for is: "+id);
         if(cat.markers[i].id === id){
             marker = cat.markers[i];
+            console.log("Setting marker to this: "+marker);
         } 
     };
 
+    console.log("At the end the marker is: "+marker);
     return marker;
 }
 
