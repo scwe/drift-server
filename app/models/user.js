@@ -48,10 +48,10 @@ userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _tex
         newMarker["name"] = _name;
     }
 
-    this.categories.markers.push(newMarker);
+    cat.markers.push(newMarker);
     this.save();
 
-    return this.categories.markers.indexOf(newMarker);
+    return cat.markers.indexOf(newMarker);
 };
 
 userSchema.methods.createCategory = function(_name, _colour){
