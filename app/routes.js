@@ -44,6 +44,7 @@ module.exports = function(app, passport) {
 
     // process the login form
     app.post('/login', passport.authenticate('local-login'), function(req, res){
+        console.log('Successfully authenticated');
         return res.json(true);
     });
 
