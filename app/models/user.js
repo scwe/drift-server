@@ -48,15 +48,9 @@ userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _tex
     }
 
     this.categories.markers.push(newMarker);
+    this.save();
 
-    this.save(function(err){
-        if(err){
-            throw err;
-            return false;
-        }
-
-        return this.categories.markers.indexOf(newMarker);
-    });
+    return this.categories.markers.indexOf(newMarker);
 };
 
 userSchema.methods.createCategory = function(_name, _colour){
@@ -69,13 +63,9 @@ userSchema.methods.createCategory = function(_name, _colour){
     var newCat = {name: _name, colour: _colour, markers: []};
 
     this.categories.push(newCat);
-    this.save(function(err){
-        if(err){
-            throw err;
-            return false;
-        }
-        return newCat;
-    });
+    this.save();
+
+    return newCat;
 };
 
 userSchema.methods.getCategory = function(name){
@@ -118,27 +108,16 @@ userSchema.methods.allCategories = function(){
 
 userSchema.methods.setFacebookId = function(id){
     this.facebook.id = id;
+    this.save();
 
-    this.save(function(err){
-        if(err){
-            throw err;
-            return false;
-        }
-        return id;
-    });
+    return id;
 }
 
 userSchema.methods.addFriends = function(new_friends){
     this.facebook.friends.concat(new_friends);
 
-    this.save(function(err){
-        if(err){
-            throw err;
-            return false;
-        }
-
-        return true
-    });
+    this.save();
+    return true;
 }
 
 function findWithName(list, name){
