@@ -174,7 +174,7 @@ module.exports = function(app, passport) {
 
     app.get('/facebook/:fb_id', is_logged_in, function(req, res){
         var user = req.user;
-        var fb_id = req.param.fb_id;
+        var fb_id = req.params.fb_id;
         if(!user.isFriend(fb_id)){
             return res.status(401).json("That person is not your friend");
         }
