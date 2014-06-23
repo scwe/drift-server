@@ -20,7 +20,7 @@ var userSchema = mongoose.Schema({
             lat     : Number,
             lon     : Number,
             text    : String,
-            image   : {data : Buffer, contentType : String},
+            image   : Buffer,
         }],
     }]
 });

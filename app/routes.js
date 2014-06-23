@@ -143,7 +143,7 @@ module.exports = function(app, passport) {
             return res.send(JSON.stringify(markers));
         }else if(!isNaN(mid) && parseInt(Number(mid)) == mid){
             var marker = user.getMarker(req.params.category_name, mid);
-            if(!markers){
+            if(!marker){
                 return res.status(404).send("There was nothing there");
             }
             return res.send(JSON.stringify(marker));
