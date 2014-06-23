@@ -1,6 +1,7 @@
 // app/routes.js
 
 var User = require('../app/models/user');  //only needed for finding friends, but we should probably load at the start anyway
+var base64 = require('base64-js');
 
 module.exports = function(app, passport) {
 
@@ -182,6 +183,19 @@ module.exports = function(app, passport) {
         if(!marker){
             return res.status(404).send("There was nothing there");
         }
+        var image = marker.image;
+
+        if(!image){
+            return res.status(404).send("There was nothing there");
+        }
+
+        var imageString = base64.fromByteArray(marker.image);
+        console.log("The base64 string is: "+imageString);
+
+        var returnString = "<img src=\"data:image/png;base64,"+imageString+"\" alt=\"Red dot\">";
+        console.log("The return string is: "+returnString);
+
+        return res.send(returnString);
 
     });
 
