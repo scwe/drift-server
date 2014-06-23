@@ -117,7 +117,7 @@ userSchema.methods.setFacebookId = function(id){
 }
 
 userSchema.methods.addFriends = function(new_friends){
-    this.facebook.friends.concat(new_friends);
+    this.facebook.friends = this.facebook.friends.concat(new_friends);
     console.log("Adding: "+new_friends);
     this.save();
     return this.facebook.friends;
