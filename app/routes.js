@@ -107,9 +107,11 @@ module.exports = function(app, passport) {
         }
         if(req.body.hasOwnProperty('image')){
             image = req.body.image;
+            console.log("We have an image");
         }
+        console.log("The image out here is: "+image);
 
-        var index = user.createMarker(req.params.category_name, name, req.body.lat, req.body.lon, req.body.text, req.body.image);
+        var index = user.createMarker(req.params.category_name, name, req.body.lat, req.body.lon, req.body.text, image);
         return res.json(index);
     });
 
