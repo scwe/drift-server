@@ -184,7 +184,7 @@ module.exports = function(app, passport) {
             if(err){
                 return res.status(400).send("There is no one in the database with that id");
             }
-            Object.getOwnPropertyNames(data)
+            console.log("The methods are: "+Object.getOwnPropertyNames(data));
             friend_categories = data;
             console.log("We are going to set the thing to: "+data.categories);
         });
