@@ -188,6 +188,8 @@ module.exports = function(app, passport) {
         });
         //We also need to make sure here that the user and the friend are actually friends
 
+        console.log(getAllMethods(friend_categories));
+
         console.log("THe friend categories we found are: "+friend_categories);
         return res.json(friend_categories);
     });
@@ -211,6 +213,12 @@ module.exports = function(app, passport) {
         res.redirect('/');
     });
 };
+
+function getAllMethods(object) {
+    return Object.getOwnPropertyNames(object).filter(function(property) {
+        return typeof object[property] == 'function';
+    });
+}
 
 // route middleware to make sure a user is logged in
 function is_logged_in(req, res, next) {
