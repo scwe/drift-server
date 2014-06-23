@@ -179,12 +179,12 @@ module.exports = function(app, passport) {
             return res.status(401).json("That person is not your friend");
         }
 
-        var friend_categories = User.findOne({'facebook.id': fb_id}, 'categories', function(err, categories){
+        var friend_categories = User.findOne({'facebook.id': fb_id}, 'categories', function(err, data){
             if(err){
                 return res.status(400).send("There is no one in the database with that id");
             }
-            console.log("In here the categories are: "+categories);
-            return categories;
+            console.log("In here the categories are: "+data);
+            return data.categories;
         });
         //We also need to make sure here that the user and the friend are actually friends
 
