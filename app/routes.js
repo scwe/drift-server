@@ -172,6 +172,19 @@ module.exports = function(app, passport) {
         }
     });
 
+    app.get('/category/:category_name/marker/:marker_id/photo', is_logged_in, function(req, res){
+        var user = req.user;
+        var cName = req.params.category_name;
+        var mid = req.params.marker_id;
+
+        var marker = user.getMarker(cName, mid);
+
+        if(!marker){
+            return res.status(404).send("There was nothing there");
+        }
+
+    });
+
     //for setting the persons facebook id
     //tested and working
     app.post('/facebook/add', is_logged_in, function(req, res){

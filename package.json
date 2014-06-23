@@ -12,7 +12,8 @@
         "passport-local" : "~0.1.6",
         "connect-flash" : "~0.1.1",     
         "logfmt": "latest",
-        "bcrypt-nodejs" : "latest"  
+        "bcrypt-nodejs" : "latest" ,
+        "base64-js": "latest" 
     },
     "repository":{
         "type":"git",
