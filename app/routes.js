@@ -132,13 +132,22 @@ module.exports = function(app, passport) {
     app.get('/category/:category_name/marker/:marker_id', is_logged_in, function(req, res){
         //make sure that the person is either 'username' or they are facebook friends with 'username'
         var user = req.user;
+        var mid = req.params.marker_id;
 
-        if(req.params.marker_id === "all"){
+        if(mid === "all"){
             var markers = user.allMarkers(req.params.category_name);
+            if(!markers){
+                return res.status(404).send("There was nothing there");
+            }
             return res.send(JSON.stringify(markers));
-        }else{
-            var marker = user.getMarker(req.params.category_name, req.params.marker_id);
+        }else if(!isNaN(mid) && parseInt(Number(mid)) == mid){
+            var marker = user.getMarker(req.params.category_name, mid);
+            if(!markers){
+                return res.status(404).send("There was nothing there");
+            }
             return res.send(JSON.stringify(marker));
+        }else{
+            return res.status(404).send("There was nothing there");
         }
     });
 
@@ -146,14 +155,19 @@ module.exports = function(app, passport) {
     app.get('/category/:category_name', is_logged_in, function(req, res){
         var user = req.user;
         var category_name = req.params.category_name;
-        console.log("")
 
         if(category_name === "all"){
             var categories = user.allCategories();
             return res.send(JSON.stringify(categories));
         }else{
             var category = user.getCategory(category_name);
-            return res.send(JSON.stringify(category));
+
+            if(!category){
+                return res.status(404).send("There was nothing there");
+            }else{
+                return res.send(JSON.stringify(category));
+            }
+
         }
     });
 
