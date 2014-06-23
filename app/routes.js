@@ -100,17 +100,16 @@ module.exports = function(app, passport) {
         var user = req.user;
         var marker;
         var name = ""
+        var image = null;
 
         if(req.body.hasOwnProperty('name')){
             name = req.body.name;
         }
-
         if(req.body.hasOwnProperty('image')){
-            marker = user.createMarker(req.params.category_name, name, req.body.lat, req.body.lon, req.body.text, req.body.image);
-        }else{
-            marker = user.createMarker(req.params.category_name, name, req.body.lat, req.body.lon, req.body.text);
+            image = req.params.image;
         }
 
+        markers = user.createMarker(req.params.category_name, name, req.body.lat, req.body.lon, req.body.text, req.body.image);
         return res.send(JSON.stringify(marker));
     });
 

@@ -47,6 +47,9 @@ userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _tex
     if(_name){
         newMarker["name"] = _name;
     }
+    if(_image){
+        newMarker["image"] = _image;
+    }
 
     cat.markers.push(newMarker);
     this.save();
