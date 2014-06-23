@@ -187,7 +187,8 @@ module.exports = function(app, passport) {
         });
         //We also need to make sure here that the user and the friend are actually friends
 
-        return res.json(friend_categories.markers);
+        console.log("THe friend categories we found are: "+friend_categories);
+        return res.json(friend_categories);
     });
 
     app.post('/facebook/friends', is_logged_in, function(req, res){
