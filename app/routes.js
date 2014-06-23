@@ -180,7 +180,7 @@ module.exports = function(app, passport) {
         }
         var friend_categories;
 
-        User.findOne({'facebook.id': fb_id}, 'categories', function(err, data){
+        User.findOne({'facebook.id': fb_id}, function(err, data){
             if(err){
                 return res.status(400).send("There is no one in the database with that id");
             }
