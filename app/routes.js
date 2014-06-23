@@ -194,7 +194,7 @@ module.exports = function(app, passport) {
         console.log("The categories on this result is: "+result);
 
         console.log("THe friend categories we found are: "+friend_categories);
-        return res.json(friend_categories);
+        //return res.json(friend_categories);
     });
 
     app.post('/facebook/friends', is_logged_in, function(req, res){
