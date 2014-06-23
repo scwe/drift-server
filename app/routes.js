@@ -183,6 +183,7 @@ module.exports = function(app, passport) {
             if(err){
                 return res.status(400).send("There is no one in the database with that id");
             }
+            console.log("In here the categories are: "+categories);
             return categories;
         });
         //We also need to make sure here that the user and the friend are actually friends
