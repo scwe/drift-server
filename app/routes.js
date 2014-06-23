@@ -179,6 +179,8 @@ module.exports = function(app, passport) {
             return res.status(401).json("That person is not your friend");
         }
 
+        console.log("Input id is: "+fb_id);
+
         var result = User.findOne({'facebook.id': fb_id}, function(err, data){
             if(err){
                 return res.status(400).send("There is no one in the database with that id");
