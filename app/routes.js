@@ -178,15 +178,16 @@ module.exports = function(app, passport) {
         if(!user.isFriend(fb_id)){
             return res.status(401).json("That person is not your friend");
         }
+        var friend_categories;
 
-        var friend_categories = User.findOne({'facebook.id': fb_id}, 'categories', function(err, data){
+        User.findOne({'facebook.id': fb_id}, 'categories', function(err, data){
             if(err){
                 return res.status(400).send("There is no one in the database with that id");
             }
+            friend_categories = data.categories;
         });
         //We also need to make sure here that the user and the friend are actually friends
 
-        console.log(Object.getOwnPropertyNames(friend_categories));
 
         console.log("THe friend categories we found are: "+friend_categories);
         return res.json(friend_categories);
