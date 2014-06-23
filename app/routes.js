@@ -187,6 +187,7 @@ module.exports = function(app, passport) {
             console.log("The methods are: "+Object.getOwnPropertyNames(data));
             friend_categories = data;
             console.log("We are going to set the thing to: "+data.categories);
+            return res.json(data);
         });
         //We also need to make sure here that the user and the friend are actually friends
         console.log("The thing that is returned is: "+Object.getOwnPropertyNames(result));
