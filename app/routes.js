@@ -180,7 +180,7 @@ module.exports = function(app, passport) {
         }
         var friend_categories;
 
-        User.findOne({'facebook.id': fb_id}, function(err, data){
+        var result = User.findOne({'facebook.id': fb_id}, function(err, data){
             if(err){
                 return res.status(400).send("There is no one in the database with that id");
             }
@@ -189,7 +189,8 @@ module.exports = function(app, passport) {
             console.log("We are going to set the thing to: "+data.categories);
         });
         //We also need to make sure here that the user and the friend are actually friends
-
+        console.log("The thing that is returned is: "+Object.getOwnPropertyNames(result));
+        console.log("The categories on this result is: "+result);
 
         console.log("THe friend categories we found are: "+friend_categories);
         return res.json(friend_categories);
