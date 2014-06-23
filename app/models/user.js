@@ -128,7 +128,6 @@ userSchema.methods.isFriend = function(friend_id){
     var result = false;
 
     for (var i = 0; i < friends.length; i++) {
-        console.log("we found a friend: "+friends[i]);
         if(friends[i] == friend_id){
             result = true;
         }
