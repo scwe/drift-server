@@ -106,8 +106,11 @@ module.exports = function(app, passport) {
             name = req.body.name;
         }
         if(req.body.hasOwnProperty('image')){
+            console.log("There is an image out here");
             image = req.params.image;
         }
+
+        console.log("Image is: "+image);
 
         markers = user.createMarker(req.params.category_name, name, req.body.lat, req.body.lon, req.body.text, req.body.image);
         return res.send(JSON.stringify(marker));
