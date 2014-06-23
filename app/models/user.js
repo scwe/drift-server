@@ -49,8 +49,6 @@ userSchema.methods.createMarker = function(categoryName, _name, _lat, _lon, _tex
     }
     if(_image){
         newMarker["image"] = _image;
-    }else{
-        console.log("There was no image");
     }
 
     cat.markers.push(newMarker);
