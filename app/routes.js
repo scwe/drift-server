@@ -183,6 +183,7 @@ module.exports = function(app, passport) {
             if(err){
                 return res.status(400).send("There is no one in the database with that id");
             }
+            console.log(data.toJSON());
             return res.json(data.categories);
         });
     });
