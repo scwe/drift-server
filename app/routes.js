@@ -196,7 +196,7 @@ module.exports = function(app, passport) {
 
         var result = User.findOne({'facebook.id': fb_id}, function(err, data){
             if(err){
-                return res.status(400).send("There is no one in the database with that id");
+                return res.status(404).send("There was nothing there");
             }
             return res.json(data.categories);
         });
