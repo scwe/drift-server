@@ -158,6 +158,7 @@ module.exports = function(app, passport) {
     });
 
     //for setting the persons facebook id
+    //tested and working
     app.post('/facebook/add', is_logged_in, function(req, res){
         if(!req.body.hasOwnProperty('facebook_id')){
             return res.status(400).send("Incorrect post syntax");
@@ -169,6 +170,7 @@ module.exports = function(app, passport) {
         user.setFacebookId(fb_id);
         return res.json(true);
     });
+
 
     app.get('/facebook/:fb_id', is_logged_in, function(req, res){
         var user = req.user;
@@ -196,6 +198,10 @@ module.exports = function(app, passport) {
         var friends = req.body.friends.split(",");
 
         return res.json(user.addFriends(friends));
+    });
+
+    app.get('/all', is_logged_in, function(req, res){
+        return res.json(req.user.toJSON());
     });
 
     app.get('/logout', function(req, res){
